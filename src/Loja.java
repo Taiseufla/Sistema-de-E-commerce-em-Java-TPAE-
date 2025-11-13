@@ -6,7 +6,14 @@ import java.util.Scanner;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
+import Produtos.Computadores;
+import Produtos.Consoles;
 import Produtos.Produto;
+import Produtos.Smartphone;
+import Produtos.TV;
+import Produtos.Perifericos.Headset;
+import Produtos.Perifericos.Mouse;
+import Produtos.Perifericos.Teclado;
 import Usuários.Cliente;
 import Usuários.Lojista;
 import Usuários.Usuario;
@@ -16,6 +23,7 @@ public class Loja {
     public static void main(String[] args) {
 
         ArrayList<Usuario> Lista_usuario = Ler_usuariosCSV("usuarios.csv");
+        ArrayList<Produto> catalogo = Catalogo("produtos.csv");
         Usuario usuariologado = null;
         Scanner entrada = new Scanner(System.in);
 
@@ -30,8 +38,7 @@ public class Loja {
             if (verifUsuario.getEmail().equals(Email_in) && verifUsuario.getSenha().equals(Senha_in)) {
                 usuariologado = verifUsuario;
                 break;
-            }
-            
+            }  
         }
         
         if (usuariologado != null) {
@@ -42,17 +49,20 @@ public class Loja {
                 
                 int opcao = entrada.nextInt();
                 switch (opcao) {
-                    /*case 1:
-                        vendedor.CadastrarProduto();  
+                    case 1:
+                        System.out.println("Ótimo! Vamos cadastrar um novo produto no sistema...");
+                        ExibirCategorias();
+                        System.out.println("Escreva qual tipo de produto deseja cadastrar:");
+                        String palavra = entrada.next();
+                        vendedor.CadastrarProduto(palavra);  
 
                         break;
-                    case 2:
+                    /*case 2:
                         vendedor.GerenciarEstoque();
                         break;*/
                     case 3:
-                        ArrayList<Produto> catalogo = Catalogo("produtos.csv");
                         for (Produto produto : catalogo) {
-                            produto.Exibir();
+                            produto.ExibirResumo();
                         }
                     default:
                         System.out.println("Opção inválida");
@@ -103,10 +113,23 @@ public class Loja {
         }
     }
 
+    public static void ExibirCategorias(){
+        System.out.println("\n----- Categorias -----");
+        System.out.println("Smartphones");
+        System.out.println("Computadores");
+        System.out.println("TVs");
+        System.out.println("Consoles");
+        System.out.println("Headset");
+        System.out.println("Mouse");
+        System.out.println("Teclado");
+    }
+
     public static ArrayList<Produto> Catalogo(String arquivo) {
         try {
             CsvToBean<CSV_produto> reader = new CsvToBeanBuilder<CSV_produto>(new FileReader(arquivo))
                     .withType(CSV_produto.class)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .withIgnoreEmptyLine(true)
                     .withSeparator(';')
                     .build();
 
@@ -114,8 +137,39 @@ public class Loja {
             ArrayList<Produto> Lista_produtos = new ArrayList<Produto>();
 
             for (CSV_produto csvProd : Lista_CSV) {
-                Produto produto = new Produto(csvProd.idProduto, csvProd.preco, csvProd.descricao, csvProd.marca);
-                Lista_produtos.add(produto);
+
+                switch(csvProd.tipo.trim().toUpperCase()){
+                    case "Smartphone":
+                        Produto smartphone = new Smartphone(csvProd.idProduto, csvProd.preco, csvProd.descricao, csvProd.marca, csvProd.sistemaOperacional);
+                        Lista_produtos.add(smartphone);
+                        break;
+                    case "Computadores":
+                        Produto computador = new Computadores(csvProd.idProduto, csvProd.preco, csvProd.descricao, csvProd.marca, csvProd.processador, Integer.parseInt(csvProd.memoriaRam), Integer.parseInt(csvProd.armazenamento));
+                        Lista_produtos.add(computador);
+                        break;
+                    case "Consoles":
+                        Produto console = new Consoles(csvProd.idProduto, csvProd.preco, csvProd.descricao, csvProd.marca, csvProd.geracao, csvProd.modelo);
+                        Lista_produtos.add(console);
+                        break;
+                    case "TV":
+                        Produto tv = new TV(csvProd.idProduto, csvProd.preco, csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.polegadas), csvProd.resolucao);
+                        Lista_produtos.add(tv);    
+                        break;
+                    case "Mouse":
+                        Produto mouse = new Mouse(csvProd.idProduto, csvProd.preco, csvProd.descricao, csvProd.marca, csvProd.tipoConexao, csvProd.sensor, Integer.parseInt(csvProd.dpi));
+                        Lista_produtos.add(mouse);
+                        break;
+                    case "Teclado":
+                        Produto teclado = new Teclado(csvProd.idProduto, csvProd.preco, csvProd.descricao, csvProd.marca, csvProd.tipoConexao, csvProd.layout, csvProd.tipoSwitch);
+                        Lista_produtos.add(teclado);
+                        break;
+                    case "Headset": 
+                        Produto headset = new Headset(csvProd.idProduto, csvProd.preco, csvProd.descricao, csvProd.marca, csvProd.tipoConexao, Boolean.parseBoolean(csvProd.somSurround), Boolean.parseBoolean(csvProd.cancelamentoRuido));
+                        Lista_produtos.add(headset);
+                        break;
+
+                }
+
             }
             return Lista_produtos;
 

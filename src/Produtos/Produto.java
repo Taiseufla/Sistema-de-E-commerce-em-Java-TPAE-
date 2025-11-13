@@ -2,19 +2,19 @@ package Produtos;
 
 public class Produto {
 
-    private int idProduto;
+    private String idProduto;
     private double preco;
     private String descricao;
     private String marca;
 
-    public Produto(int idProduto, double preco, String descricao, String marca) {
+    public Produto(String idProduto, double preco, String descricao, String marca) {
         this.idProduto = idProduto;
         this.preco = preco;
         this.descricao = descricao;
         this.marca = marca;
     }
 
-    public int getIdproduto() {
+    public String getIdproduto() {
         return this.idProduto;
     }
 
@@ -30,7 +30,7 @@ public class Produto {
         return this.marca;
     }
 
-   public void Exibir(){
+   public void ExibirResumo(){
         System.out.println("Código do Produto: " + idProduto);
         System.out.println("Descrição: " + descricao);
         System.out.println("-----------------------\n");
@@ -42,4 +42,5 @@ public class Produto {
         System.out.println("Marca: " +marca);
         System.out.println("Descrição: " +descricao);
     }
+
 }

@@ -1,5 +1,5 @@
 Id; Tipo; Email; Senha; Nome; CNPJ; CPF; Endereço
-100;1;taise.sobrinho@ufla;TPAE01;Taise;43.266.235/0001-30;null;null  
+100;1;taise.sobrinho@ufla;TPAE01;Taise;43.266.235/0001-30; ;  
 101;2;bruno.kanayama@ufla;TPAE02;Bruno; ;762.843.090-50;Rua das Acácias, 123, Centro, São Paulo - SP
 102;2;pedro.otaki@ufla;TPAE03;Pedro; ;306.146.290-02;Av. Brasil, 4500, Zona Norte, Rio de Janeiro - RJ
 103;2;maisa.vasconcelos@ufla;TPAE04;Maisa; ;193.524.840-68;Rua XV de Novembro, 90, Batel, Curitiba - PR
