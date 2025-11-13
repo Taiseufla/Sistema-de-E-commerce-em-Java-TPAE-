@@ -14,13 +14,16 @@ public class Lojista extends Usuario {
         System.out.println("------ Lojista ------");
         System.out.println("\nNome: " +getUsername());
         System.out.println("CNPJ: "+this.cnpj);
+        
     }
     
     public void ExibirMenu(){
+        System.out.println("\nPara prosseguir, escolha uma das opções disponíveis do menu...");
         System.out.println("\n------ Menu ------");
         System.out.println("\n1.Cadastrar Produto");
         System.out.println("2.Gerenciar Produto");
         System.out.println("3.Exibir Produtos\n");
+
 
     }
 

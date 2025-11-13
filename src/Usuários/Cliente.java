@@ -19,6 +19,7 @@ public class Cliente extends Usuario {
         System.out.println("Endereço: "+this.endereco);
     }
      public void ExibirMenu(){
+         System.out.println("\nPara prosseguir, escolha uma das opções disponíveis do menu...");
         System.out.println("\n------ Menu ------");
         System.out.println("\n1.Exibir Produtos");
         System.out.println("2.Buscar Produto\n");

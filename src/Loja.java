@@ -1,9 +1,10 @@
+import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-import com.opencsv.exceptions.CsvValidationException;
-import com.opencsv.CSVReader;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
 
 import Produtos.Produto;
 import Usuários.Cliente;
@@ -14,7 +15,7 @@ public class Loja {
 
     public static void main(String[] args) {
 
-        ArrayList<Usuario> Lista_usuario = Ler_arquivos("usuarios.csv");
+        ArrayList<Usuario> Lista_usuario = Ler_usuariosCSV("usuarios.csv");
         Usuario usuariologado = null;
         Scanner entrada = new Scanner(System.in);
 
@@ -23,60 +24,77 @@ public class Loja {
         System.out.println("\nDigite sua senha");
         String Senha_in = entrada.next();
 
-        entrada.close();
-
+        
         for (Usuario verifUsuario : Lista_usuario) {
-
+            
             if (verifUsuario.getEmail().equals(Email_in) && verifUsuario.getSenha().equals(Senha_in)) {
                 usuariologado = verifUsuario;
                 break;
             }
-
+            
         }
-
+        
         if (usuariologado != null) {
             if (usuariologado instanceof Lojista) {
                 Lojista vendedor = (Lojista) usuariologado;
                 vendedor.ExibirDados();
+                vendedor.ExibirMenu();
+                
+                int opcao = entrada.nextInt();
+                switch (opcao) {
+                    /*case 1:
+                        vendedor.CadastrarProduto();  
+
+                        break;
+                    case 2:
+                        vendedor.GerenciarEstoque();
+                        break;*/
+                    case 3:
+                        ArrayList<Produto> catalogo = Catalogo("produtos.csv");
+                        for (Produto produto : catalogo) {
+                            produto.Exibir();
+                        }
+                    default:
+                        System.out.println("Opção inválida");
+                        break;
+                } 
+                
             } else {
                 Cliente cliente = (Cliente) usuariologado;
                 cliente.ExibirDados();
+                cliente.ExibirMenu();
             }
-
+            
         } else {
             System.out.println("E-mail e/ou senha inválidos");
         }
-
+        
+        entrada.close();
     }
+    
+    public static ArrayList<Usuario> Ler_usuariosCSV(String arquivo) {
 
-    public static ArrayList<Usuario> Ler_arquivos(String arquivo) {
         try {
-            Scanner scanner = new Scanner(Paths.get(arquivo));
-            scanner.useDelimiter(";|\\r\\n|\\n");
+            CsvToBean<CSV_usuarios> reader = new CsvToBeanBuilder<CSV_usuarios>(new FileReader(arquivo))
+                    .withType(CSV_usuarios.class)
+                    .withSeparator(';')
+                    .build();
+
+            List<CSV_usuarios> Lista_CSV = reader.parse();
 
             ArrayList<Usuario> Lista_usuario = new ArrayList<Usuario>();
 
-            scanner.nextLine();
+            for (CSV_usuarios csvUser : Lista_CSV) {
 
-            while (scanner.hasNext()) {
-                int id = scanner.nextInt();
-                int tipo = scanner.nextInt();
-                String Email = scanner.next();
-                String Senha = scanner.next();
-                String Nome = scanner.next();
-                String CNPJ = scanner.next();
-                String CPF = scanner.next();
-                String endereco = scanner.next();
-
-                if (tipo == 1) {
-                    Usuario lojista = new Lojista(id, Nome, Senha, Email, CNPJ);
+                if (csvUser.tipo == 1) {
+                    Usuario lojista = new Lojista(csvUser.id, csvUser.nome, csvUser.senha, csvUser.email, csvUser.cnpj);
                     Lista_usuario.add(lojista);
                 } else {
-                    Usuario cliente = new Cliente(id, Nome, Senha, Email, CPF, endereco);
+                    Usuario cliente = new Cliente(csvUser.id, csvUser.nome, csvUser.senha, csvUser.email, csvUser.cpf,
+                            csvUser.endereco);
                     Lista_usuario.add(cliente);
                 }
             }
-            scanner.close();
             return Lista_usuario;
 
         } catch (IOException ex) {
@@ -85,40 +103,25 @@ public class Loja {
         }
     }
 
-    public static ArrayList<Produto> Catalogo(String arquivo){
-    try {
-            Scanner scanner = new Scanner(Paths.get(arquivo));
-            scanner.useDelimiter(";|\\r\\n|\\n");
+    public static ArrayList<Produto> Catalogo(String arquivo) {
+        try {
+            CsvToBean<CSV_produto> reader = new CsvToBeanBuilder<CSV_produto>(new FileReader(arquivo))
+                    .withType(CSV_produto.class)
+                    .withSeparator(';')
+                    .build();
 
-            ArrayList<Produto> Catalogo = new ArrayList<Produto>();
+            List<CSV_produto> Lista_CSV = reader.parse();
+            ArrayList<Produto> Lista_produtos = new ArrayList<Produto>();
 
-            scanner.nextLine();
-
-            while (scanner.hasNext()) {
-                int id = scanner.nextInt();
-                int tipo = scanner.nextInt();
-                String Email = scanner.next();
-                String Senha = scanner.next();
-                String Nome = scanner.next();
-                String CNPJ = scanner.next();
-                String CPF = scanner.next();
-                String endereco = scanner.next();
-
-                if (tipo == 1) {
-                    Usuario lojista = new Lojista(id, Nome, Senha, Email, CNPJ);
-                    Lista_usuario.add(lojista);
-                } else {
-                    Usuario cliente = new Cliente(id, Nome, Senha, Email, CPF, endereco);
-                    Lista_usuario.add(cliente);
-                }
+            for (CSV_produto csvProd : Lista_CSV) {
+                Produto produto = new Produto(csvProd.idProduto, csvProd.preco, csvProd.descricao, csvProd.marca);
+                Lista_produtos.add(produto);
             }
-            scanner.close();
-            return Lista_usuario;
+            return Lista_produtos;
 
         } catch (IOException ex) {
             System.out.println(ex.toString());
-            return new ArrayList<Usuario>();
+            return new ArrayList<Produto>();
         }
     }
-
 }

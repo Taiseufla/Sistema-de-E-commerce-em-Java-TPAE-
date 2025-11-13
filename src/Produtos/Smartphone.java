@@ -1,3 +1,4 @@
+package Produtos;
 public class Smartphone extends Produto {
 
     private String SO;
