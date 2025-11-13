@@ -70,9 +70,10 @@ public class Lojista extends Usuario {
         }
     }
     
-    public void inserirDados()}{
+    public void inserirDados(){
         
     }
+
 
     /*private void GerenciarEstoque() {
 

@@ -28,9 +28,9 @@ public class Loja {
         Scanner entrada = new Scanner(System.in);
 
         System.out.println("Bem-vindo(a) à nossa loja, para prosseguir digite o seu e-mail");
-        String Email_in = entrada.next();
+        String Email_in = "taise.sobrinho@ufla"; //entrada.next();
         System.out.println("\nDigite sua senha");
-        String Senha_in = entrada.next();
+        String Senha_in = "TPAE01"; // entrada.next();
 
         
         for (Usuario verifUsuario : Lista_usuario) {
@@ -64,6 +64,7 @@ public class Loja {
                         for (Produto produto : catalogo) {
                             produto.ExibirResumo();
                         }
+                        break;
                     default:
                         System.out.println("Opção inválida");
                         break;
@@ -138,13 +139,13 @@ public class Loja {
 
             for (CSV_produto csvProd : Lista_CSV) {
 
-                switch(csvProd.tipo.trim().toUpperCase()){
+                switch(csvProd.tipo.trim()){
                     case "Smartphone":
                         Produto smartphone = new Smartphone(csvProd.idProduto, csvProd.preco, csvProd.descricao, csvProd.marca, csvProd.sistemaOperacional);
                         Lista_produtos.add(smartphone);
                         break;
-                    case "Computadores":
-                        Produto computador = new Computadores(csvProd.idProduto, csvProd.preco, csvProd.descricao, csvProd.marca, csvProd.processador, Integer.parseInt(csvProd.memoriaRam), Integer.parseInt(csvProd.armazenamento));
+                    case "Notebook":
+                        Produto computador = new Computadores(csvProd.idProduto, csvProd.preco, csvProd.descricao, csvProd.marca, csvProd.processador, csvProd.memoriaRam, csvProd.armazenamento);
                         Lista_produtos.add(computador);
                         break;
                     case "Consoles":
