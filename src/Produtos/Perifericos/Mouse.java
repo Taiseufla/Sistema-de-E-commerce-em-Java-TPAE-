@@ -1,4 +1,7 @@
 package Produtos.Perifericos;
+
+import Model.CSV_produto;
+
 public class Mouse extends Perifericos {
 
     private String Sensor;
@@ -15,6 +18,15 @@ public class Mouse extends Perifericos {
         super.ExibirProduto();
         System.out.println("Tipo de Sensor: " + Sensor);
         System.out.println("DPI: " + DPI);
+    }
+
+    @Override
+    public CSV_produto toCSV(){
+        CSV_produto csv = super.toCSV();
+        csv.tipo = "MOUSE";
+        csv.sensor = this.Sensor;
+        csv.dpi = String.valueOf(this.DPI);
+        return csv;
     }
 }
 

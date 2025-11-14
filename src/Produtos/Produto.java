@@ -1,5 +1,7 @@
 package Produtos;
 
+import Model.CSV_produto;
+
 public abstract class Produto {
 
     public String idProduto;
@@ -61,6 +63,16 @@ public abstract class Produto {
 
     public void setQuantidade(int novaQuantidade) {
         this.quantidade = novaQuantidade;
+    }
+
+    public CSV_produto toCSV() {
+        CSV_produto csv = new CSV_produto();
+        csv.idProduto = this.idProduto;
+        csv.preco = String.valueOf(this.preco);
+        csv.descricao = this.descricao;
+        csv.marca = this.marca;
+        csv.quantidade = String.valueOf(this.quantidade);
+        return csv;
     }
 
 }

@@ -1,4 +1,7 @@
 package Produtos;
+
+import Model.CSV_produto;
+
 public class Consoles extends Produto {
 
     private String Geracao;
@@ -15,5 +18,14 @@ public class Consoles extends Produto {
         super.ExibirProduto();
         System.out.println("Geração: " + Geracao);
         System.out.println("Modelo: " + Modelo);
+    }
+
+    @Override
+    public CSV_produto toCSV(){
+        CSV_produto csv = super.toCSV();
+        csv.tipo = "CONSOLE";
+        csv.geracao = this.Geracao;
+        csv.modelo = this.Modelo;
+        return csv;
     }
 }

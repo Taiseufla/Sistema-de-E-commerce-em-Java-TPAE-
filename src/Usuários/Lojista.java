@@ -1,6 +1,6 @@
 package Usuários;
 
-import Produtos.Computadores;
+import Produtos.Notebooks;
 import Produtos.Consoles;
 import Produtos.Produto;
 import Produtos.Smartphone;
@@ -95,7 +95,7 @@ public class Lojista extends Usuario {
                 System.out.println("Insira o Sistema Operacional:");
                 String so = entrada.nextLine();
                 System.out.println("Insira o Tamanho da Tela:");
-                String tela = entrada.nextLine();
+                Double tela = entrada.nextDouble();
                 System.out.println("Insira a Cor:");
                 String cor = entrada.nextLine();
 
@@ -112,7 +112,7 @@ public class Lojista extends Usuario {
                 System.out.println("Insira o Armazenamento:");
                 String armazenamento = entrada.nextLine();
 
-                Produto notebook = new Computadores(idProduto, preco, descricao, marca, quantidade, processador, memoriaRam, armazenamento);
+                Produto notebook = new Notebooks(idProduto, preco, descricao, marca, quantidade, processador, memoriaRam, armazenamento);
                 catalogo.add(notebook);
 
                 break;
@@ -188,9 +188,13 @@ public class Lojista extends Usuario {
 
 
     }
-
-
-
+    
+    /**
+     * Gerencia o estoque de um produto existente
+     * Permite ao lojista alterar a quantidade em estoque de um produto específico
+     * @param catalogo ArrayList contendo todos os produtos disponíveis no sistema
+     * @param entrada Scanner para capturar entrada do usuário via teclado
+     */
 
   public void GerenciarEstoque(ArrayList<Produto> catalogo, Scanner entrada) {
 

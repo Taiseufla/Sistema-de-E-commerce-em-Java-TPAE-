@@ -1,5 +1,7 @@
 package Produtos;
 
+import Model.CSV_produto;
+
 public class TV extends Produto {
 
     private double polegadas;
@@ -16,6 +18,16 @@ public class TV extends Produto {
         super.ExibirProduto();
         System.out.println("Tamanho: " + polegadas + " polegadas");
         System.out.println("Resolução: " + resolucao);
+    }
+
+    @Override
+    public CSV_produto toCSV(){
+        CSV_produto csv = super.toCSV();
+        csv.tipo = "TV";
+        csv.polegadas = String.valueOf(this.polegadas);
+        csv.resolucao = this.resolucao;
+        return csv;
+
     }
 
 }

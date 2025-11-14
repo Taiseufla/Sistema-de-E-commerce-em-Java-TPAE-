@@ -14,7 +14,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 
-import Produtos.Computadores;
+import Produtos.Notebooks;
 import Produtos.Consoles;
 import Produtos.Produto;
 import Produtos.Smartphone;
@@ -23,7 +23,7 @@ import Produtos.Perifericos.Headset;
 import Produtos.Perifericos.Mouse;
 import Produtos.Perifericos.Teclado;
 import Model.CSV_usuarios;
-import Model.CSV_produto;   
+import Model.CSV_produto;
 
 public class Loja {
 
@@ -35,40 +35,39 @@ public class Loja {
         Scanner entrada = new Scanner(System.in);
 
         System.out.println("Bem-vindo(a) à nossa loja, para prosseguir digite o seu e-mail");
-        String Email_in = entrada.next();
+        String Email_in = "taise.sobrinho@ufla"; // entrada.next();
         System.out.println("\nDigite sua senha");
-        String Senha_in = entrada.next();
+        String Senha_in = "TPAE01"; // entrada.next();
 
-        
         for (Usuario verifUsuario : Lista_usuario) {
-            
+
             if (verifUsuario.getEmail().equals(Email_in) && verifUsuario.getSenha().equals(Senha_in)) {
                 usuariologado = verifUsuario;
                 break;
-            }  
+            }
         }
-        
+
         if (usuariologado != null) {
             if (usuariologado instanceof Lojista) {
                 Lojista vendedor = (Lojista) usuariologado;
                 vendedor.ExibirDados();
                 vendedor.ExibirMenu();
-                
+
                 int opcao = entrada.nextInt();
                 entrada.nextLine(); // Consumir a quebra de linha pendente
                 switch (opcao) {
                     case 1:
-                    System.out.println("Ótimo! Vamos cadastrar um novo produto no sistema...");
-                    ExibirCategorias();    
-                    vendedor.CadastrarProduto(catalogo, entrada);  
+                        System.out.println("Ótimo! Vamos cadastrar um novo produto no sistema...");
+                        ExibirCategorias();
+                        vendedor.CadastrarProduto(catalogo, entrada);
 
                         break;
                     case 2:
-                    System.out.println("Ótimo, a quantidade de produtos em estoque será carregada abaixo...");
-                    for (Produto produto:catalogo){
-                        produto.ExibirResumo();
-                    }
-                    vendedor.GerenciarEstoque(catalogo, entrada);
+                        System.out.println("Ótimo, a quantidade de produtos em estoque será carregada abaixo...");
+                        for (Produto produto : catalogo) {
+                            produto.ExibirResumo();
+                        }
+                        vendedor.GerenciarEstoque(catalogo, entrada);
                         break;
                     case 3:
                         for (Produto produto : catalogo) {
@@ -78,8 +77,8 @@ public class Loja {
                     default:
                         System.out.println("Opção inválida");
                         break;
-                } 
-                
+                }
+
             } else {
                 Cliente cliente = (Cliente) usuariologado;
                 cliente.ExibirDados();
@@ -91,29 +90,45 @@ public class Loja {
                 switch (opcao) {
                     case 1:
                         System.out.println("Ótimo! Vamos navegar pelo catálogo de produtos...");
-                        //cliente.NavegarCatalogo(catalogo, entrada);
+                        // cliente.NavegarCatalogo(catalogo, entrada);
                         break;
                     case 2:
                         System.out.println("Que legal! Vamos buscar um produto específico...");
-                        //cliente.GerenciarCarrinho(catalogo, entrada);
+                        // cliente.GerenciarCarrinho(catalogo, entrada);
                         break;
                     case 3:
                         System.out.println("Ótimo! Vamos finalizar sua compra...");
-                       // cliente.FinalizarCompra(catalogo, entrada);
+                        // cliente.FinalizarCompra(catalogo, entrada);
                         break;
                     default:
                         System.out.println("Opção inválida");
                         break;
                 }
             }
-            
+
         } else {
             System.out.println("E-mail e/ou senha inválidos");
         }
-        
+
+        System.out.println("\nDeseja salvar as alterações?(sim/não)");
+        String salvar = entrada.nextLine();
+        if (salvar.equalsIgnoreCase("sim")) {
+
+            // Limpar arquivo antes de salvar as alterações
+            try (Writer limpar = new FileWriter("produtos.csv")) {
+                // Apenas abrir e fechar o FileWriter limpa o arquivo
+            } catch (IOException e) {
+                System.out.println("Erro ao limpar o arquivo de produtos: " + e.getMessage());
+            }
+
+            for (Produto produto : catalogo) {
+                SalvarProdutoNoCSV(produto.toCSV(), "produtos.csv");
+            }
+        }
+
         entrada.close();
     }
-    
+
     public static ArrayList<Usuario> Ler_usuariosCSV(String arquivo) {
 
         try {
@@ -145,7 +160,7 @@ public class Loja {
         }
     }
 
-    public static void ExibirCategorias(){
+    public static void ExibirCategorias() {
         System.out.println("\n----- Categorias -----");
         System.out.println("Smartphone");
         System.out.println("Notebook");
@@ -170,33 +185,48 @@ public class Loja {
 
             for (CSV_produto csvProd : Lista_CSV) {
 
-                switch(csvProd.tipo.trim()){
+                switch (csvProd.tipo.trim()) {
                     case "Smartphone":
-                        Produto smartphone = new Smartphone(csvProd.idProduto,Double.parseDouble(csvProd.preco), csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade),csvProd.sistemaOperacional, csvProd.telaTamanho, csvProd.cor);
+                        Produto smartphone = new Smartphone(csvProd.idProduto, Double.parseDouble(csvProd.preco),
+                                csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade),
+                                csvProd.sistemaOperacional, Double.parseDouble(csvProd.telaTamanho), csvProd.cor);
                         Lista_produtos.add(smartphone);
                         break;
                     case "Notebook":
-                        Produto computador = new Computadores(csvProd.idProduto, Double.parseDouble(csvProd.preco), csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade), csvProd.processador, csvProd.memoriaRam, csvProd.armazenamento);
+                        Produto computador = new Notebooks(csvProd.idProduto, Double.parseDouble(csvProd.preco),
+                                csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade),
+                                csvProd.processador, csvProd.memoriaRam, csvProd.armazenamento);
                         Lista_produtos.add(computador);
                         break;
                     case "Consoles":
-                        Produto console = new Consoles(csvProd.idProduto, Double.parseDouble(csvProd.preco), csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade), csvProd.geracao, csvProd.modelo);
+                        Produto console = new Consoles(csvProd.idProduto, Double.parseDouble(csvProd.preco),
+                                csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade), csvProd.geracao,
+                                csvProd.modelo);
                         Lista_produtos.add(console);
                         break;
                     case "TV":
-                        Produto tv = new TV(csvProd.idProduto, Double.parseDouble(csvProd.preco), csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade), Integer.parseInt(csvProd.polegadas), csvProd.resolucao);
-                        Lista_produtos.add(tv);    
+                        Produto tv = new TV(csvProd.idProduto, Double.parseDouble(csvProd.preco), csvProd.descricao,
+                                csvProd.marca, Integer.parseInt(csvProd.quantidade),
+                                Double.parseDouble(csvProd.polegadas), csvProd.resolucao);
+                        Lista_produtos.add(tv);
                         break;
                     case "Mouse":
-                        Produto mouse = new Mouse(csvProd.idProduto, Double.parseDouble(csvProd.preco), csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade), csvProd.tipoConexao, csvProd.sensor, Integer.parseInt(csvProd.dpi));
+                        Produto mouse = new Mouse(csvProd.idProduto, Double.parseDouble(csvProd.preco),
+                                csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade),
+                                csvProd.tipoConexao, csvProd.sensor, Integer.parseInt(csvProd.dpi));
                         Lista_produtos.add(mouse);
                         break;
                     case "Teclado":
-                        Produto teclado = new Teclado(csvProd.idProduto, Double.parseDouble(csvProd.preco), csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade), csvProd.tipoConexao, csvProd.layout, csvProd.tipoSwitch);
+                        Produto teclado = new Teclado(csvProd.idProduto, Double.parseDouble(csvProd.preco),
+                                csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade),
+                                csvProd.tipoConexao, csvProd.layout, csvProd.tipoSwitch);
                         Lista_produtos.add(teclado);
                         break;
-                    case "Headset": 
-                        Produto headset = new Headset(csvProd.idProduto, Double.parseDouble(csvProd.preco), csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade), csvProd.tipoConexao, Boolean.parseBoolean(csvProd.somSurround), Boolean.parseBoolean(csvProd.cancelamentoRuido));
+                    case "Headset":
+                        Produto headset = new Headset(csvProd.idProduto, Double.parseDouble(csvProd.preco),
+                                csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade),
+                                csvProd.tipoConexao, Boolean.parseBoolean(csvProd.somSurround),
+                                Boolean.parseBoolean(csvProd.cancelamentoRuido));
                         Lista_produtos.add(headset);
                         break;
 
@@ -214,15 +244,14 @@ public class Loja {
     public static void SalvarProdutoNoCSV(CSV_produto csvParaSalvar, String arquivo) {
 
         try (
-            
-            Writer escrever = new FileWriter(arquivo, true)
-        ) {
+
+                Writer escrever = new FileWriter(arquivo, true)) {
             // Configura o escritor de CSV
             StatefulBeanToCsv<CSV_produto> NovoProduto = new StatefulBeanToCsvBuilder<CSV_produto>(escrever)
-            .withSeparator(';')
-            .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
-            .withApplyQuotesToAll(false)
-            .build();
+                    .withSeparator(';')
+                    .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
+                    .withApplyQuotesToAll(false)
+                    .build();
 
             // Escreve o novo objeto como uma nova linha no arquivo
             NovoProduto.write(csvParaSalvar);
