@@ -2,6 +2,20 @@ package Model;
 
 import com.opencsv.bean.CsvBindByPosition;
 
+/**
+ * Classe CSV_produto - Modelo de dados para serialização e desserialização de produtos no arquivo CSV
+ * 
+ * FUNCIONALIDADE PRINCIPAL:
+ * Esta classe atua como um mapeador entre os dados em formato CSV e objetos Java.
+ * Utiliza a biblioteca OpenCSV com anotações @CsvBindByPosition para vincular cada 
+ * atributo a uma coluna específica no arquivo CSV de produtos.
+ * 
+ * IMPORTANTE:
+ * - Cada atributo é mapeado para uma posição específica (coluna) no arquivo CSV através da anotação @CsvBindByPosition
+ * - A posição começa do índice 0 (primeira coluna)
+ * - Todos os atributos são public para permitir acesso direto pela biblioteca OpenCSV
+ * - Todos os atributos são do tipo String para compatibilidade com dados CSV (que são sempre texto)
+ */
 public class CSV_produto {
     
     @CsvBindByPosition(position = 0) public String tipo;

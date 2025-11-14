@@ -10,4 +10,11 @@ public class Headset extends Perifericos {
         this.CancelRuido = CancelRuido;
     }
 
+    @Override
+    public void ExibirProduto() {
+        super.ExibirProduto();
+        System.out.println("Som Surround: " + (somSourroud ? "Sim" : "Não"));
+        System.out.println("Cancelamento de Ruído: " + (CancelRuido ? "Sim" : "Não"));
+    }
+
 }

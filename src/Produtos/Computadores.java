@@ -10,5 +10,13 @@ public class Computadores extends Produto{
         this.Processador = Processador;
         this.MemoriaRAM = MemoriaRAM;
         this.armazenamento = armazenamento;
-}
+    }
+
+    @Override
+    public void ExibirProduto() {
+        super.ExibirProduto();
+        System.out.println("Processador: " + Processador);
+        System.out.println("Memória RAM: " + MemoriaRAM);
+        System.out.println("Armazenamento: " + armazenamento);
+    }
 }

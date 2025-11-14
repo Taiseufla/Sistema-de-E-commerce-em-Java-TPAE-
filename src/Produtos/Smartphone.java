@@ -13,4 +13,11 @@ public class Smartphone extends Produto {
         this.cor = cor;
     }
 
+    @Override
+    public void ExibirProduto() {
+        super.ExibirProduto();
+        System.out.println("Sistema Operacional: " + SO);
+        System.out.println("Tamanho da Tela: " + TelaTamanho + " polegadas");
+        System.out.println("Cor: " + cor);
+    }
 }

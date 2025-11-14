@@ -9,4 +9,11 @@ public class Consoles extends Produto {
         this.Geracao = Geracao;
         this.Modelo = Modelo;
     }
+
+    @Override
+    public void ExibirProduto() {
+        super.ExibirProduto();
+        System.out.println("Geração: " + Geracao);
+        System.out.println("Modelo: " + Modelo);
+    }
 }

@@ -63,12 +63,16 @@ public class Loja {
                     vendedor.CadastrarProduto(catalogo, entrada);  
 
                         break;
-                    /*case 2:
-                        vendedor.GerenciarEstoque();
-                        break;*/
+                    case 2:
+                    System.out.println("Ótimo, a quantidade de produtos em estoque será carregada abaixo...");
+                    for (Produto produto:catalogo){
+                        produto.ExibirResumo();
+                    }
+                    vendedor.GerenciarEstoque(catalogo, entrada);
+                        break;
                     case 3:
                         for (Produto produto : catalogo) {
-                            produto.ExibirResumo();
+                            produto.ExibirCatalogo();
                         }
                         break;
                     default:
@@ -80,6 +84,27 @@ public class Loja {
                 Cliente cliente = (Cliente) usuariologado;
                 cliente.ExibirDados();
                 cliente.ExibirMenu();
+
+                int opcao = entrada.nextInt();
+                entrada.nextLine(); // Consumir a quebra de linha pendente
+
+                switch (opcao) {
+                    case 1:
+                        System.out.println("Ótimo! Vamos navegar pelo catálogo de produtos...");
+                        //cliente.NavegarCatalogo(catalogo, entrada);
+                        break;
+                    case 2:
+                        System.out.println("Que legal! Vamos buscar um produto específico...");
+                        //cliente.GerenciarCarrinho(catalogo, entrada);
+                        break;
+                    case 3:
+                        System.out.println("Ótimo! Vamos finalizar sua compra...");
+                       // cliente.FinalizarCompra(catalogo, entrada);
+                        break;
+                    default:
+                        System.out.println("Opção inválida");
+                        break;
+                }
             }
             
         } else {
@@ -189,16 +214,14 @@ public class Loja {
     public static void SalvarProdutoNoCSV(CSV_produto csvParaSalvar, String arquivo) {
 
         try (
-            // Abre o arquivo no modo "append" (anexar)
-            // O 'true' é o segredo: ele adiciona ao final em vez de apagar
+            
             Writer escrever = new FileWriter(arquivo, true)
         ) {
             // Configura o escritor de CSV
             StatefulBeanToCsv<CSV_produto> NovoProduto = new StatefulBeanToCsvBuilder<CSV_produto>(escrever)
-            .withSeparator(';') // Usa ; como separador (igual à leitura)
-            .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER) // Não usa aspas desnecessárias
-            .withApplyQuotesToAll(false) // Só usa aspas se precisar (ex: se tiver ;)
-            //.withWriteHeader(false) // Não escreve o cabeçalho (já existe)
+            .withSeparator(';')
+            .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
+            .withApplyQuotesToAll(false)
             .build();
 
             // Escreve o novo objeto como uma nova linha no arquivo
@@ -208,5 +231,15 @@ public class Loja {
             System.out.println("Erro ao salvar produto no CSV: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public static Produto BuscarProdutoPorID(String codigoProduto, ArrayList<Produto> catalogo) {
+        for (Produto produto : catalogo) {
+            if (produto.idProduto.equals(codigoProduto)) {
+                return produto;
+            }
+        }
+        System.out.println("Produto com ID " + codigoProduto + " não encontrado.");
+        return null;
     }
 }

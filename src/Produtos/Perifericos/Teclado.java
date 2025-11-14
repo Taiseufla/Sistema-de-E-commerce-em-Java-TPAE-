@@ -9,4 +9,11 @@ public class Teclado extends Perifericos {
         this.Layout = Layout;
         this.tipoSwitch = tipoSwitch;
     }
+
+    @Override
+    public void ExibirProduto() {
+        super.ExibirProduto();
+        System.out.println("Layout: " + Layout);
+        System.out.println("Tipo de Switch: " + tipoSwitch);
+    }
 }

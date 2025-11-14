@@ -9,5 +9,12 @@ public class Mouse extends Perifericos {
         this.Sensor = Sensor;
         this.DPI = DPI;
     }
+
+    @Override
+    public void ExibirProduto() {
+        super.ExibirProduto();
+        System.out.println("Tipo de Sensor: " + Sensor);
+        System.out.println("DPI: " + DPI);
+    }
 }
 

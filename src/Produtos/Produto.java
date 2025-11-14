@@ -1,8 +1,8 @@
 package Produtos;
 
-public class Produto {
+public abstract class Produto {
 
-    private String idProduto;
+    public String idProduto;
     private double preco;
     private String descricao;
     private String marca;
@@ -36,17 +36,31 @@ public class Produto {
         return this.quantidade;
     }
 
-   public void ExibirResumo(){
+    public void ExibirCatalogo() {
         System.out.println("Código do Produto: " + idProduto);
         System.out.println("Descrição: " + descricao);
+        System.out.println("Preço: R$" + preco);
         System.out.println("-----------------------\n");
     }
 
+    public void ExibirResumo() {
+        System.out.println("Código do Produto: " + idProduto);
+        System.out.println("Descrição: " + descricao);
+        System.out.println("Quantidade em Estoque: " + quantidade);
+        System.out.println("Preço: R$" + preco);
+        System.out.println("-----------------------\n");
+
+    }
+
     public void ExibirProduto() {
-        System.out.println("Código do Produto: " +idProduto);
-        System.out.println("Preço: R$" +preco);
-        System.out.println("Marca: " +marca);
-        System.out.println("Descrição: " +descricao);
+        System.out.println("Código do Produto: " + idProduto);
+        System.out.println("Descrição: " + descricao);
+        System.out.println("Preço: R$" + preco);
+        System.out.println("Marca: " + marca);
+    }
+
+    public void setQuantidade(int novaQuantidade) {
+        this.quantidade = novaQuantidade;
     }
 
 }

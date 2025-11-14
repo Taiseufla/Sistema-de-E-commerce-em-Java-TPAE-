@@ -9,4 +9,10 @@ public class Perifericos extends Produto {
         super(idProduto, preco, descricao, marca, quantidade);
         this.Conexao = Conexao;
     }
+
+    @Override
+    public void ExibirProduto() {
+        super.ExibirProduto();
+        System.out.println("Conexão: " + Conexao);
+    }
 }
