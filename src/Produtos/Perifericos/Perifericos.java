@@ -5,8 +5,8 @@ public class Perifericos extends Produto {
 
     private String Conexao;
 
-    public Perifericos(String idProduto, double preco, String descricao, String marca, String Conexao) {
-        super(idProduto, preco, descricao, marca);
+    public Perifericos(String idProduto, double preco, String descricao, String marca, int quantidade, String Conexao) {
+        super(idProduto, preco, descricao, marca, quantidade);
         this.Conexao = Conexao;
     }
 }

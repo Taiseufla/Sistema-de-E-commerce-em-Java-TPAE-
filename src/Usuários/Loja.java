@@ -1,10 +1,18 @@
+package Usuários;
+
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
 
 import Produtos.Computadores;
 import Produtos.Consoles;
@@ -14,9 +22,8 @@ import Produtos.TV;
 import Produtos.Perifericos.Headset;
 import Produtos.Perifericos.Mouse;
 import Produtos.Perifericos.Teclado;
-import Usuários.Cliente;
-import Usuários.Lojista;
-import Usuários.Usuario;
+import Model.CSV_usuarios;
+import Model.CSV_produto;   
 
 public class Loja {
 
@@ -28,9 +35,9 @@ public class Loja {
         Scanner entrada = new Scanner(System.in);
 
         System.out.println("Bem-vindo(a) à nossa loja, para prosseguir digite o seu e-mail");
-        String Email_in = "taise.sobrinho@ufla"; //entrada.next();
+        String Email_in = entrada.next();
         System.out.println("\nDigite sua senha");
-        String Senha_in = "TPAE01"; // entrada.next();
+        String Senha_in = entrada.next();
 
         
         for (Usuario verifUsuario : Lista_usuario) {
@@ -48,13 +55,12 @@ public class Loja {
                 vendedor.ExibirMenu();
                 
                 int opcao = entrada.nextInt();
+                entrada.nextLine(); // Consumir a quebra de linha pendente
                 switch (opcao) {
                     case 1:
-                        System.out.println("Ótimo! Vamos cadastrar um novo produto no sistema...");
-                        ExibirCategorias();
-                        System.out.println("Escreva qual tipo de produto deseja cadastrar:");
-                        String palavra = entrada.next();
-                        vendedor.CadastrarProduto(palavra);  
+                    System.out.println("Ótimo! Vamos cadastrar um novo produto no sistema...");
+                    ExibirCategorias();    
+                    vendedor.CadastrarProduto(catalogo, entrada);  
 
                         break;
                     /*case 2:
@@ -116,9 +122,9 @@ public class Loja {
 
     public static void ExibirCategorias(){
         System.out.println("\n----- Categorias -----");
-        System.out.println("Smartphones");
-        System.out.println("Computadores");
-        System.out.println("TVs");
+        System.out.println("Smartphone");
+        System.out.println("Notebook");
+        System.out.println("TV");
         System.out.println("Consoles");
         System.out.println("Headset");
         System.out.println("Mouse");
@@ -141,31 +147,31 @@ public class Loja {
 
                 switch(csvProd.tipo.trim()){
                     case "Smartphone":
-                        Produto smartphone = new Smartphone(csvProd.idProduto, csvProd.preco, csvProd.descricao, csvProd.marca, csvProd.sistemaOperacional);
+                        Produto smartphone = new Smartphone(csvProd.idProduto,Double.parseDouble(csvProd.preco), csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade),csvProd.sistemaOperacional, csvProd.telaTamanho, csvProd.cor);
                         Lista_produtos.add(smartphone);
                         break;
                     case "Notebook":
-                        Produto computador = new Computadores(csvProd.idProduto, csvProd.preco, csvProd.descricao, csvProd.marca, csvProd.processador, csvProd.memoriaRam, csvProd.armazenamento);
+                        Produto computador = new Computadores(csvProd.idProduto, Double.parseDouble(csvProd.preco), csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade), csvProd.processador, csvProd.memoriaRam, csvProd.armazenamento);
                         Lista_produtos.add(computador);
                         break;
                     case "Consoles":
-                        Produto console = new Consoles(csvProd.idProduto, csvProd.preco, csvProd.descricao, csvProd.marca, csvProd.geracao, csvProd.modelo);
+                        Produto console = new Consoles(csvProd.idProduto, Double.parseDouble(csvProd.preco), csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade), csvProd.geracao, csvProd.modelo);
                         Lista_produtos.add(console);
                         break;
                     case "TV":
-                        Produto tv = new TV(csvProd.idProduto, csvProd.preco, csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.polegadas), csvProd.resolucao);
+                        Produto tv = new TV(csvProd.idProduto, Double.parseDouble(csvProd.preco), csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade), Integer.parseInt(csvProd.polegadas), csvProd.resolucao);
                         Lista_produtos.add(tv);    
                         break;
                     case "Mouse":
-                        Produto mouse = new Mouse(csvProd.idProduto, csvProd.preco, csvProd.descricao, csvProd.marca, csvProd.tipoConexao, csvProd.sensor, Integer.parseInt(csvProd.dpi));
+                        Produto mouse = new Mouse(csvProd.idProduto, Double.parseDouble(csvProd.preco), csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade), csvProd.tipoConexao, csvProd.sensor, Integer.parseInt(csvProd.dpi));
                         Lista_produtos.add(mouse);
                         break;
                     case "Teclado":
-                        Produto teclado = new Teclado(csvProd.idProduto, csvProd.preco, csvProd.descricao, csvProd.marca, csvProd.tipoConexao, csvProd.layout, csvProd.tipoSwitch);
+                        Produto teclado = new Teclado(csvProd.idProduto, Double.parseDouble(csvProd.preco), csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade), csvProd.tipoConexao, csvProd.layout, csvProd.tipoSwitch);
                         Lista_produtos.add(teclado);
                         break;
                     case "Headset": 
-                        Produto headset = new Headset(csvProd.idProduto, csvProd.preco, csvProd.descricao, csvProd.marca, csvProd.tipoConexao, Boolean.parseBoolean(csvProd.somSurround), Boolean.parseBoolean(csvProd.cancelamentoRuido));
+                        Produto headset = new Headset(csvProd.idProduto, Double.parseDouble(csvProd.preco), csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade), csvProd.tipoConexao, Boolean.parseBoolean(csvProd.somSurround), Boolean.parseBoolean(csvProd.cancelamentoRuido));
                         Lista_produtos.add(headset);
                         break;
 
@@ -177,6 +183,30 @@ public class Loja {
         } catch (IOException ex) {
             System.out.println(ex.toString());
             return new ArrayList<Produto>();
+        }
+    }
+
+    public static void SalvarProdutoNoCSV(CSV_produto csvParaSalvar, String arquivo) {
+
+        try (
+            // Abre o arquivo no modo "append" (anexar)
+            // O 'true' é o segredo: ele adiciona ao final em vez de apagar
+            Writer escrever = new FileWriter(arquivo, true)
+        ) {
+            // Configura o escritor de CSV
+            StatefulBeanToCsv<CSV_produto> NovoProduto = new StatefulBeanToCsvBuilder<CSV_produto>(escrever)
+            .withSeparator(';') // Usa ; como separador (igual à leitura)
+            .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER) // Não usa aspas desnecessárias
+            .withApplyQuotesToAll(false) // Só usa aspas se precisar (ex: se tiver ;)
+            //.withWriteHeader(false) // Não escreve o cabeçalho (já existe)
+            .build();
+
+            // Escreve o novo objeto como uma nova linha no arquivo
+            NovoProduto.write(csvParaSalvar);
+
+        } catch (Exception e) {
+            System.out.println("Erro ao salvar produto no CSV: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

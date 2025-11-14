@@ -1,24 +1,24 @@
-Tipo;idProduto;descricao;marca;preco;SistemaOperacional;TelaTamanho;Cor;Processador;MemoriaRam;Armazenamento;Polegadas;Resolucao;Geracao;Modelo;TipoConexao;Sensor;DPI;Layout;TipoSwitch;SomSurround;CancelamentoRuido
-Smartphone;101;iPhone 15 Pro Max;Apple;8999.90;iOS;6.7;Titanio Natural;;;;;;;;;;;;;;
-Smartphone;102;Galaxy S23 Ultra;Samsung;6500.00;Android;6.8;Preto;;;;;;;;;;;;;;
-Smartphone;103;Motorola Edge 40;Motorola;2999.00;Android;6.5;Azul;;;;;;;;;;;;;;
-Smartphone;104;Xiaomi 13 Pro;Xiaomi;5400.00;Android;6.7;Branco;;;;;;;;;;;;;;
-Notebook;201;MacBook Air M2;Apple;7500.00;;;;M2;8GB;256GB;;;;;;;;;;;
-Notebook;202;Dell XPS 13 Plus;Dell;9800.00;;;;Intel Core i7;16GB;512GB;;;;;;;;;;;
-Notebook;203;Acer Nitro 5 Gamer;Acer;4200.00;;;;Intel Core i5;8GB;512GB;;;;;;;;;;;
-Notebook;204;Lenovo ThinkPad E14;Lenovo;3800.00;;;;AMD Ryzen 5;16GB;256GB;;;;;;;;;;;
-TV;301;Smart TV OLED Evo;LG;5200.00;;;;;;;55;4K;;;;;;;;;
-TV;302;Neo QLED Gaming TV;Samsung;6100.00;;;;;;;65;4K;;;;;;;;;
-TV;303;TV LED Crystal UHD;Samsung;2500.00;;;;;;;50;4K;;;;;;;;;
-TV;304;Android TV Ambilight;Philips;3100.00;;;;;;;55;4K;;;;;;;;;
-Console;401;PlayStation 5;Sony;3800.00;;;;;;;;;9;Slim;;;;;;;
-Console;402;Xbox Series X;Microsoft;4200.00;;;;;;;;;9;Series X;;;;;;;
-Console;403;Nintendo Switch OLED;Nintendo;2100.00;;;;;;;;;8;OLED;;;;;;;
-Console;404;PlayStation 4;Sony;1800.00;;;;;;;;;8;Slim;;;;;;;
-Mouse;501;Mouse Gamer G Pro X;Logitech;699.00;;;;;;;;;;;Sem Fio;Hero 25K;25600;;;;
-Mouse;502;Mouse DeathAdder V3;Razer;450.00;;;;;;;;;;;USB;Optical Focus;30000;;;;
-Teclado;601;Teclado Alloy Origins;HyperX;599.00;;;;;;;;;;;USB;;;ABNT2;Red;;
-Teclado;602;Teclado BlackWidow V4;Razer;1100.00;;;;;;;;;;;USB;;;US;Green;;
-Headset;701;Headset Cloud II;HyperX;499.00;;;;;;;;;;;P2;;;;;true;false
-Headset;702;Headset WH-1000XM5;Sony;2300.00;;;;;;;;;;;Bluetooth;;;;;true;true
-
+Tipo;idProduto;descricao;marca;preco;Quantidade;SistemaOperacional;TelaTamanho;Cor;Processador;MemoriaRam;Armazenamento;Polegadas;Resolucao;Geracao;Modelo;TipoConexao;Sensor;DPI;Layout;TipoSwitch;SomSurround;CancelamentoRuido
+Smartphone;101;iPhone 15 Pro Max;Apple;8999.90;200;iOS;6.7;Titanio Natural;;;;;;;;;;;;;;
+Smartphone;102;Galaxy S23 Ultra;Samsung;6500.00;150;Android;6.8;Preto;;;;;;;;;;;;;;
+Smartphone;103;Motorola Edge 40;Motorola;2999.00;400;Android;6.5;Azul;;;;;;;;;;;;;;
+Smartphone;104;Xiaomi 13 Pro;Xiaomi;5400.00;490;Android;6.7;Branco;;;;;;;;;;;;;;
+Notebook;201;MacBook Air M2;Apple;7500.00;300;;;;M2;8GB;256GB;;;;;;;;;;;
+Notebook;202;Dell XPS 13 Plus;Dell;9800.00;190;;;;Intel Core i7;16GB;512GB;;;;;;;;;;;
+Notebook;203;Acer Nitro 5 Gamer;Acer;4200.00;140;;;;Intel Core i5;8GB;512GB;;;;;;;;;;;
+Notebook;204;Lenovo ThinkPad E14;Lenovo;3800.00;390;;;;AMD Ryzen 5;16GB;256GB;;;;;;;;;;;
+TV;301;Smart TV OLED Evo;LG;5200.00;233;;;;;;;55;4K;;;;;;;;;
+TV;302;Neo QLED Gaming TV;Samsung;6100.00;346;;;;;;;65;4K;;;;;;;;;
+TV;303;TV LED Crystal UHD;Samsung;2500.00;200;;;;;;;50;4K;;;;;;;;;
+TV;304;Android TV Ambilight;Philips;3100.00;290;;;;;;;55;4K;;;;;;;;;
+Console;401;PlayStation 5;Sony;3800.00;60;;;;;;;;;9;Slim;;;;;;;
+Console;402;Xbox Series X;Microsoft;4200.00;70;;;;;;;;;9;Series X;;;;;;;
+Console;403;Nintendo Switch OLED;Nintendo;2100.00;90;;;;;;;;;8;OLED;;;;;;;
+Console;404;PlayStation 4;Sony;1800.00;84;;;;;;;;;8;Slim;;;;;;;
+Mouse;501;Mouse Gamer G Pro X;Logitech;699.00;300;;;;;;;;;;;Sem Fio;Hero 25K;25600;;;;
+Mouse;502;Mouse DeathAdder V3;Razer;450.00;400;;;;;;;;;;;USB;Optical Focus;30000;;;;
+Teclado;601;Teclado Alloy Origins;HyperX;599.00;200;;;;;;;;;;;USB;;;ABNT2;Red;;
+Teclado;602;Teclado BlackWidow V4;Razer;1100.00;390;;;;;;;;;;;USB;;;US;Green;;
+Headset;701;Headset Cloud II;HyperX;499.00;450;;;;;;;;;;;P2;;;;;true;false
+Headset;702;Headset WH-1000XM5;Sony;2300.00;300;;;;;;;;;;;Bluetooth;;;;;true;true
+Smartphone;;Galaxy S24 FE 5G ;Samsung;2664.00;30;Android;7;Prata;;;;;;;;;;;;;;
