@@ -1,4 +1,4 @@
-package Usuários;
+package Ecommerce;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -14,6 +14,9 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 
+import Usuários.Usuario;
+import Usuários.Lojista;
+import Usuários.Cliente;
 import Produtos.Notebooks;
 import Produtos.Consoles;
 import Produtos.Produto;
@@ -26,6 +29,19 @@ import Model.CSV_usuarios;
 import Model.CSV_produto;
 
 public class Loja {
+/**
+ * Classe Loja - Ponto de entrada e utilitários da aplicação de e-commerce
+ *
+ * RESPONSABILIDADE:
+ * - Contém o método `main` que inicializa a aplicação (login, menus e fluxo principal).
+ * - Fornece utilitários estáticos para carregar e salvar dados em CSV
+ *   (usuários e catálogo de produtos) e métodos auxiliares de busca/exibição.
+ *
+ * OBSERVAÇÕES IMPORTANTES:
+ * - A serialização/desserialização de CSV utiliza a biblioteca OpenCSV.
+ * - Os métodos `Catalogo` e `Ler_usuariosCSV` convertem linhas CSV em objetos do domínio
+ *   (`Produto` e `Usuario`) usando as classes `CSV_produto` e `CSV_usuarios`.
+ */
 
     public static void main(String[] args) {
 
@@ -35,22 +51,24 @@ public class Loja {
         Scanner entrada = new Scanner(System.in);
 
         System.out.println("Bem-vindo(a) à nossa loja, para prosseguir digite o seu e-mail");
-        String Email_in = "taise.sobrinho@ufla"; // entrada.next();
+        String Email_in = entrada.next();
         System.out.println("\nDigite sua senha");
-        String Senha_in = "TPAE01"; // entrada.next();
+        String Senha_in = entrada.next();
 
         for (Usuario verifUsuario : Lista_usuario) {
 
             if (verifUsuario.getEmail().equals(Email_in) && verifUsuario.getSenha().equals(Senha_in)) {
                 usuariologado = verifUsuario;
                 break;
+            } else {
+                System.out.println("E-mail e/ou senha inválidos");
             }
         }
 
-        if (usuariologado != null) {
-            if (usuariologado instanceof Lojista) {
-                Lojista vendedor = (Lojista) usuariologado;
-                vendedor.ExibirDados();
+        if (usuariologado instanceof Lojista) {
+            Lojista vendedor = (Lojista) usuariologado;
+            vendedor.ExibirDados();
+            while (usuariologado != null) {
                 vendedor.ExibirMenu();
 
                 int opcao = entrada.nextInt();
@@ -74,14 +92,34 @@ public class Loja {
                             produto.ExibirCatalogo();
                         }
                         break;
+                    case 4:
+                        SalvarAlteracoesCSV(catalogo, entrada);
+                        break;
+
+                    case 5:
+                        System.out.println("Logout realizado com sucesso!");
+                        usuariologado = null; // Encerra a sessão do usuário
+                        break;
+
                     default:
                         System.out.println("Opção inválida");
                         break;
                 }
+                
+                if (opcao != 4) {
+                    System.out.println("\nPara voltar ao menu, tecle ENTER");
+                    entrada.nextLine();
 
-            } else {
-                Cliente cliente = (Cliente) usuariologado;
-                cliente.ExibirDados();
+                System.out.println("\nPara voltar ao menu, tecle ENTER");
+                entrada.nextLine();
+                }
+            }
+
+        } else {
+            Cliente cliente = (Cliente) usuariologado;
+            cliente.ExibirDados();
+
+            while (usuariologado != null) {
                 cliente.ExibirMenu();
 
                 int opcao = entrada.nextInt();
@@ -89,48 +127,75 @@ public class Loja {
 
                 switch (opcao) {
                     case 1:
-                        System.out.println("Ótimo! Vamos navegar pelo catálogo de produtos...");
-                        // cliente.NavegarCatalogo(catalogo, entrada);
+                        System.out.println("Que legal! Vamos buscar um produto específico...");
+                        System.out.println("Você quer ver o catálogo de produtos antes? (Sim/Não)");
+                        String resposta = entrada.nextLine().toUpperCase();
+
+                        if (resposta.equalsIgnoreCase("SIM")) {
+                            for (Produto produto : catalogo) {
+                                produto.ExibirCatalogo();
+                            }
+                        }
+                        cliente.ProdutoDesejado(catalogo, entrada);
                         break;
                     case 2:
-                        System.out.println("Que legal! Vamos buscar um produto específico...");
-                        // cliente.GerenciarCarrinho(catalogo, entrada);
+                        for (Produto produto : catalogo) {
+                            produto.ExibirCatalogo();
+                        }
                         break;
                     case 3:
-                        System.out.println("Ótimo! Vamos finalizar sua compra...");
-                        // cliente.FinalizarCompra(catalogo, entrada);
+                        SalvarAlteracoesCSV(catalogo, entrada);
+                        break;
+                    case 4:
+                        System.out.println("Logout realizado com sucesso!");
+                        usuariologado = null; // Encerra a sessão do usuário
                         break;
                     default:
                         System.out.println("Opção inválida");
                         break;
                 }
-            }
 
-        } else {
-            System.out.println("E-mail e/ou senha inválidos");
-        }
-
-        System.out.println("\nDeseja salvar as alterações?(sim/não)");
-        String salvar = entrada.nextLine();
-        if (salvar.equalsIgnoreCase("sim")) {
-
-            // Limpar arquivo antes de salvar as alterações
-            try (Writer limpar = new FileWriter("produtos.csv")) {
-                // Apenas abrir e fechar o FileWriter limpa o arquivo
-            } catch (IOException e) {
-                System.out.println("Erro ao limpar o arquivo de produtos: " + e.getMessage());
-            }
-
-            for (Produto produto : catalogo) {
-                SalvarProdutoNoCSV(produto.toCSV(), "produtos.csv");
+                if (opcao != 4) {
+                    System.out.println("\nPara voltar ao menu, tecle ENTER");
+                    entrada.nextLine();
+                }
             }
         }
 
         entrada.close();
     }
 
-    public static ArrayList<Usuario> Ler_usuariosCSV(String arquivo) {
 
+    /**
+     * Salva todo o catálogo atual no arquivo CSV `produtos.csv`.
+     * Implementação:
+     * - Limpa o arquivo existente (abre em modo escrita sem append)
+     * - Percorre o `catalogo` e escreve cada produto chamando `SalvarProdutoNoCSV`
+     *
+     * @param catalogo lista de produtos a serem persistidos
+     * @param entrada  scanner para interação (não utilizado diretamente aqui, mas
+     *                 mantido para compatibilidade com chamadas existentes)
+     * Limpar arquivo antes de salvar as alterações 
+     */
+    public static void SalvarAlteracoesCSV(ArrayList<Produto> catalogo, Scanner entrada) {
+        try (Writer limpar = new FileWriter("produtos.csv")) {
+        } catch (IOException e) {
+            System.out.println("Erro ao limpar o arquivo de produtos: " + e.getMessage());
+        }
+        for (Produto produto : catalogo) {
+            SalvarProdutoNoCSV(produto.toCSV(), "produtos.csv");
+        }
+    }
+
+    /**
+     * Lê o arquivo CSV de usuários e converte cada linha em instâncias de `Usuario`.
+     * - Usa `CSV_usuarios` como bean de mapeamento (OpenCSV @CsvBindByName)
+     * - O campo `tipo` determina se a entrada será instanciada como `Cliente` ou `Lojista`
+     *
+     * @param arquivo caminho para o arquivo CSV (ex: "usuarios.csv")
+     * @return lista de usuários instanciados a partir do CSV
+     */
+    public static ArrayList<Usuario> Ler_usuariosCSV(String arquivo) {
         try {
             CsvToBean<CSV_usuarios> reader = new CsvToBeanBuilder<CSV_usuarios>(new FileReader(arquivo))
                     .withType(CSV_usuarios.class)
@@ -160,6 +225,10 @@ public class Loja {
         }
     }
 
+    /**
+     * Exibe as categorias de produtos disponíveis.
+     * Método utilitário usado durante o fluxo de cadastro para orientar o lojista.
+     */
     public static void ExibirCategorias() {
         System.out.println("\n----- Categorias -----");
         System.out.println("Smartphone");
@@ -171,6 +240,13 @@ public class Loja {
         System.out.println("Teclado");
     }
 
+    /**
+     * Carrega o catálogo de produtos a partir do arquivo CSV e converte cada linha
+     * em objetos `Produto` apropriados (Smartphone, Notebooks, TV, Console, Mouse, Teclado, Headset).
+     *
+     * @param arquivo caminho para o CSV de produtos
+     * @return lista de produtos instanciados a partir do CSV
+     */
     public static ArrayList<Produto> Catalogo(String arquivo) {
         try {
             CsvToBean<CSV_produto> reader = new CsvToBeanBuilder<CSV_produto>(new FileReader(arquivo))
@@ -186,19 +262,19 @@ public class Loja {
             for (CSV_produto csvProd : Lista_CSV) {
 
                 switch (csvProd.tipo.trim()) {
-                    case "Smartphone":
+                    case "SMARTPHONE":
                         Produto smartphone = new Smartphone(csvProd.idProduto, Double.parseDouble(csvProd.preco),
                                 csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade),
                                 csvProd.sistemaOperacional, Double.parseDouble(csvProd.telaTamanho), csvProd.cor);
                         Lista_produtos.add(smartphone);
                         break;
-                    case "Notebook":
+                    case "NOTEBOOK":
                         Produto computador = new Notebooks(csvProd.idProduto, Double.parseDouble(csvProd.preco),
                                 csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade),
                                 csvProd.processador, csvProd.memoriaRam, csvProd.armazenamento);
                         Lista_produtos.add(computador);
                         break;
-                    case "Consoles":
+                    case "CONSOLE":
                         Produto console = new Consoles(csvProd.idProduto, Double.parseDouble(csvProd.preco),
                                 csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade), csvProd.geracao,
                                 csvProd.modelo);
@@ -210,19 +286,19 @@ public class Loja {
                                 Double.parseDouble(csvProd.polegadas), csvProd.resolucao);
                         Lista_produtos.add(tv);
                         break;
-                    case "Mouse":
+                    case "MOUSE":
                         Produto mouse = new Mouse(csvProd.idProduto, Double.parseDouble(csvProd.preco),
                                 csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade),
                                 csvProd.tipoConexao, csvProd.sensor, Integer.parseInt(csvProd.dpi));
                         Lista_produtos.add(mouse);
                         break;
-                    case "Teclado":
+                    case "TECLADO":
                         Produto teclado = new Teclado(csvProd.idProduto, Double.parseDouble(csvProd.preco),
                                 csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade),
                                 csvProd.tipoConexao, csvProd.layout, csvProd.tipoSwitch);
                         Lista_produtos.add(teclado);
                         break;
-                    case "Headset":
+                    case "HEADSET":
                         Produto headset = new Headset(csvProd.idProduto, Double.parseDouble(csvProd.preco),
                                 csvProd.descricao, csvProd.marca, Integer.parseInt(csvProd.quantidade),
                                 csvProd.tipoConexao, Boolean.parseBoolean(csvProd.somSurround),
@@ -241,19 +317,23 @@ public class Loja {
         }
     }
 
+    /**
+     * Adiciona um único `CSV_produto` como nova linha no arquivo CSV especificado.
+     * Utiliza `StatefulBeanToCsv` do OpenCSV para serializar o bean para CSV.
+     *
+     * @param csvParaSalvar bean contendo os campos que correspondem às colunas do CSV
+     * @param arquivo       caminho do arquivo CSV (ex: "produtos.csv")
+     */
     public static void SalvarProdutoNoCSV(CSV_produto csvParaSalvar, String arquivo) {
-
         try (
 
-                Writer escrever = new FileWriter(arquivo, true)) {
-            // Configura o escritor de CSV
+            Writer escrever = new FileWriter(arquivo, true)) {
             StatefulBeanToCsv<CSV_produto> NovoProduto = new StatefulBeanToCsvBuilder<CSV_produto>(escrever)
                     .withSeparator(';')
                     .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
                     .withApplyQuotesToAll(false)
                     .build();
 
-            // Escreve o novo objeto como uma nova linha no arquivo
             NovoProduto.write(csvParaSalvar);
 
         } catch (Exception e) {
@@ -262,6 +342,14 @@ public class Loja {
         }
     }
 
+    /**
+     * Busca um produto no catálogo pelo seu identificador (ID/código).
+     * Retorna o objeto `Produto` correspondente ou `null` se não encontrado.
+     *
+     * @param codigoProduto código/ID do produto a buscar
+     * @param catalogo      lista de produtos onde será realizada a busca
+     * @return Produto correspondente ao ID ou null se não encontrado
+     */
     public static Produto BuscarProdutoPorID(String codigoProduto, ArrayList<Produto> catalogo) {
         for (Produto produto : catalogo) {
             if (produto.idProduto.equals(codigoProduto)) {

@@ -23,7 +23,7 @@ public class Teclado extends Perifericos {
     @Override
     public CSV_produto toCSV() {
         CSV_produto csv = super.toCSV();
-        csv.tipo = "Teclado";
+        csv.tipo = "TECLADO";
         csv.layout = this.Layout;
         csv.tipoSwitch = this.tipoSwitch;
         return csv;

@@ -1,4 +1,4 @@
-SMARTPHONE;101;iPhone 15 Pro Max;Apple;8999.9;200;iOS;6.7;Titanio Natural;;;;;;;;;;;;;;
+SMARTPHONE;101;iPhone 15 Pro Max;Apple;8999.9;197;iOS;6.7;Titanio Natural;;;;;;;;;;;;;;
 SMARTPHONE;102;Galaxy S23 Ultra;Samsung;6500.0;150;Android;6.8;Preto;;;;;;;;;;;;;;
 SMARTPHONE;103;Motorola Edge 40;Motorola;2999.0;400;Android;6.5;Azul;;;;;;;;;;;;;;
 SMARTPHONE;104;Xiaomi 13 Pro;Xiaomi;5400.0;490;Android;6.7;Branco;;;;;;;;;;;;;;
@@ -12,8 +12,13 @@ TV;303;TV LED Crystal UHD;Samsung;2500.0;200;;;;;;;50.0;4K;;;;;;;;;
 TV;304;Android TV Ambilight;Philips;3100.0;290;;;;;;;55.0;4K;;;;;;;;;
 MOUSE;501;Mouse Gamer G Pro X;Logitech;699.0;300;;;;;;;;;;;;Hero 25K;25600;;;;
 MOUSE;502;Mouse DeathAdder V3;Razer;450.0;400;;;;;;;;;;;;Optical Focus;30000;;;;
-Teclado;601;Teclado Alloy Origins;HyperX;599.0;200;;;;;;;;;;;;;;ABNT2;Red;;
-Teclado;602;Teclado BlackWidow V4;Razer;1100.0;390;;;;;;;;;;;;;;US;Green;;
+TECLADO;601;Teclado Alloy Origins;HyperX;599.0;200;;;;;;;;;;;;;;ABNT2;Red;;
+TECLADO;602;Teclado BlackWidow V4;Razer;1100.0;390;;;;;;;;;;;;;;US;Green;;
 HEADSET;701;Headset Cloud II;HyperX;499.0;450;;;;;;;;;;;;;;;;true;false
 HEADSET;702;Headset WH-1000XM5;Sony;2300.0;300;;;;;;;;;;;;;;;;true;true
 SMARTPHONE;105;Galaxy S24 FE 5G ;Samsung;2664.0;500;Android;7.0;Prata;;;;;;;;;;;;;;
+CONSOLE;401;PlayStation 5;Sony;3800.0;60;;;;;;;;;9;Slim;;;;;;;
+CONSOLE;402;Xbox Series X;Microsoft;4200.0;70;;;;;;;;;9;Series X;;;;;;;
+CONSOLE;403;Nintendo Switch OLED;Nintendo;2100.0;90;;;;;;;;;8;OLED;;;;;;;
+CONSOLE;404;PlayStation 4;Sony;1800.0;82;;;;;;;;;8;Slim;;;;;;;
+MOUSE;406;Mouse Gamer TGT GM50;TGT;100.0;500;;;;;;;;;;;;�ptico;3600;;;;

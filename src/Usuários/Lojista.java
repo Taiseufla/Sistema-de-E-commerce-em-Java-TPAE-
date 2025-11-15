@@ -1,5 +1,6 @@
 package Usuários;
 
+import Ecommerce.Loja;
 import Produtos.Notebooks;
 import Produtos.Consoles;
 import Produtos.Produto;
@@ -54,7 +55,10 @@ public class Lojista extends Usuario {
         System.out.println("\n------ Menu ------");
         System.out.println("\n1.Cadastrar Produto");
         System.out.println("2.Gerenciar Produto");
-        System.out.println("3.Exibir Produtos\n");
+        System.out.println("3.Exibir Produtos");
+        System.out.println("4.Salvar Alterações");
+        System.out.println("5.Logout");
+        System.out.println("-----------------------\n");
 
     }
 
