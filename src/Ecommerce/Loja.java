@@ -14,6 +14,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 
+import Ecommerce.Carrinho;
 import Usuários.Usuario;
 import Usuários.Lojista;
 import Usuários.Cliente;
@@ -51,9 +52,9 @@ public class Loja {
         Scanner entrada = new Scanner(System.in);
 
         System.out.println("Bem-vindo(a) à nossa loja, para prosseguir digite o seu e-mail");
-        String Email_in = entrada.next();
+        String Email_in = "bruno.kanayama@ufla"; //entrada.next();
         System.out.println("\nDigite sua senha");
-        String Senha_in = entrada.next();
+        String Senha_in = "TPAE02"; //entrada.next();
 
         for (Usuario verifUsuario : Lista_usuario) {
 
@@ -78,12 +79,11 @@ public class Loja {
                         System.out.println("Ótimo! Vamos cadastrar um novo produto no sistema...");
                         ExibirCategorias();
                         vendedor.CadastrarProduto(catalogo, entrada);
-
                         break;
                     case 2:
                         System.out.println("Ótimo, a quantidade de produtos em estoque será carregada abaixo...");
                         for (Produto produto : catalogo) {
-                            produto.ExibirResumo();
+                            produto.ExibirCatalogo();
                         }
                         vendedor.GerenciarEstoque(catalogo, entrada);
                         break;
@@ -109,15 +109,13 @@ public class Loja {
                 if (opcao != 4) {
                     System.out.println("\nPara voltar ao menu, tecle ENTER");
                     entrada.nextLine();
-
-                System.out.println("\nPara voltar ao menu, tecle ENTER");
-                entrada.nextLine();
                 }
             }
 
         } else {
             Cliente cliente = (Cliente) usuariologado;
             cliente.ExibirDados();
+            Carrinho carrinhoCliente = cliente.getCarrinho();
 
             while (usuariologado != null) {
                 cliente.ExibirMenu();
@@ -129,7 +127,7 @@ public class Loja {
                     case 1:
                         System.out.println("Que legal! Vamos buscar um produto específico...");
                         System.out.println("Você quer ver o catálogo de produtos antes? (Sim/Não)");
-                        String resposta = entrada.nextLine().toUpperCase();
+                        String resposta = entrada.nextLine();
 
                         if (resposta.equalsIgnoreCase("SIM")) {
                             for (Produto produto : catalogo) {
@@ -144,11 +142,18 @@ public class Loja {
                         }
                         break;
                     case 3:
-                        SalvarAlteracoesCSV(catalogo, entrada);
+                        
+                        carrinhoCliente.exibirCarrinho();
+                        System.out.println("Gostaria de finalizar os pedidos dos itens no carrinho?");
+                            String valor = entrada.nextLine();
+                            if(valor.equalsIgnoreCase("SIM")){
+                                Pedidos pedidoCliente = cliente.getCarrinho().finalizarCompra();
+                            }
+        
                         break;
                     case 4:
                         System.out.println("Logout realizado com sucesso!");
-                        usuariologado = null; // Encerra a sessão do usuário
+                        usuariologado = null;
                         break;
                     default:
                         System.out.println("Opção inválida");

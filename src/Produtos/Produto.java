@@ -45,20 +45,12 @@ public abstract class Produto {
         System.out.println("-----------------------\n");
     }
 
-    public void ExibirResumo() {
-        System.out.println("Código do Produto: " + idProduto);
-        System.out.println("Descrição: " + descricao);
-        System.out.println("Quantidade em Estoque: " + quantidade);
-        System.out.println("Preço: R$" + preco);
-        System.out.println("-----------------------\n");
-
-    }
-
     public void ExibirProduto() {
-        System.out.println("Código do Produto: " + idProduto);
         System.out.println("Descrição: " + descricao);
         System.out.println("Preço: R$" + preco);
+        System.out.println("Quantidade em Estoque: " + quantidade);
         System.out.println("Marca: " + marca);
+        System.out.println("-----------------------\n");
     }
 
     public void setQuantidade(int novaQuantidade) {
