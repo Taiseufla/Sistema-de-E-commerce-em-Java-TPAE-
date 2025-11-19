@@ -37,7 +37,6 @@ public class Cliente extends Usuario {
     public Cliente (int Id, String Username, String Senha, String Email, String CPF, String endereco){
         super(Id, Username, Senha, Email);
         this.carrinho = new Carrinho(this);
-        //this.pedido = new Pedidos(this);
         this.CPF = CPF;
         this.endereco = endereco;
     }
@@ -59,13 +58,12 @@ public class Cliente extends Usuario {
     }
 
      public void ExibirMenu(){
-         System.out.println("\nPara prosseguir, escolha uma das opções disponíveis do menu...");
+        System.out.println("\nPara prosseguir, escolha uma das opções disponíveis do menu...");
         System.out.println("\n------ Menu ------");
         System.out.println("1.Buscar Produto");
         System.out.println("2.Exibir Produtos");
-        System.out.println("3.Salvar ações");
-        System.out.println("4.Exibir carrinho");
-        System.out.println("5.Logout");
+        System.out.println("3.Exibir carrinho");
+        System.out.println("4.Logout");
         System.out.println("-----------------------\n");
     }
 
@@ -104,18 +102,19 @@ public class Cliente extends Usuario {
             entrada.nextLine(); // Consumir a nova linha após nextInt()
 
             try {
-                
                 switch(opcao){
                     case 1:
                     carrinho.adicionarProduto(produto);                  
                     break;
                     
                     case 2:
-                    //pedido.solicitarProduto(produto);
-                    //System.out.println("Pedido efetuado com sucesso!");
-                    //pedido.ExibirPedido();
-
+                    //Criar uma forma de finalizar a compra diretamente.
+                    ArrayList <Produto> realizarpedido = new ArrayList<Produto>();
+                    realizarpedido.add(produto);
+                    Pedidos pedido = new Pedidos(this, realizarpedido);
+                    pedido.ExibirPedido();
                     break;
+
                     case 3:
                     break;
                 }

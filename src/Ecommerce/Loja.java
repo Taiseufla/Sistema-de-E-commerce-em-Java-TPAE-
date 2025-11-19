@@ -142,12 +142,12 @@ public class Loja {
                         }
                         break;
                     case 3:
-                        
                         carrinhoCliente.exibirCarrinho();
                         System.out.println("Gostaria de finalizar os pedidos dos itens no carrinho?");
                             String valor = entrada.nextLine();
                             if(valor.equalsIgnoreCase("SIM")){
                                 Pedidos pedidoCliente = cliente.getCarrinho().finalizarCompra();
+                                pedidoCliente.ExibirPedido();
                             }
         
                         break;

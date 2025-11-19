@@ -50,7 +50,6 @@ public abstract class Produto {
         System.out.println("Preço: R$" + preco);
         System.out.println("Quantidade em Estoque: " + quantidade);
         System.out.println("Marca: " + marca);
-        System.out.println("-----------------------\n");
     }
 
     public void setQuantidade(int novaQuantidade) {
